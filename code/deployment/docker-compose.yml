@@ -1,0 +1,34 @@
+services:
+  api:
+    build: ./api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../models:/app/models:ro
+    environment:
+      - MODEL_PATH=/app/models/churn_model.pkl
+
+  app:
+    build: ./app
+    ports:
+      - "8501:8501"
+    environment:
+      - API_URL=http://api:8000
+    depends_on:
+      - api
+
+  airflow:
+    build:
+      context: ../../
+      dockerfile: services/airflow/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../../:/opt/airflow/project
+      - ../../services/airflow/dags:/opt/airflow/dags
+      - ../../services/airflow/logs:/opt/airflow/logs
+    environment:
+      - WANDB_API_KEY=${WANDB_API_KEY}
+    command: standalone
+    depends_on:
+      - api
