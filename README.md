@@ -95,3 +95,8 @@ is picked up without rebuilding or restarting the API container.
 - The pipeline was originally trained/validated in Colab; local retraining
   uses pinned `scikit-learn`/`xgboost` versions (see `requirements.txt`) to
   keep the serialized artifact compatible with the API's runtime.
+  
+- Access to `api.wandb.ai` may be unstable depending on network/region. The
+  pipeline is resilient to this: if wandb login fails, training falls back
+  to `wandb offline` mode automatically and completes normally — only the
+  live metrics dashboard sync is skipped, not the training itself.
