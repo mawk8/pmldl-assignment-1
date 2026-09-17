@@ -67,9 +67,14 @@ is picked up without rebuilding or restarting the API container.
 
 ## How to run
 
-1. Set your Weights & Biases key:
+1. Copy `.env.example` to `.env` in `code/deployment/` and fill in your `WANDB_API_KEY`:
 ```bash
-   $env:WANDB_API_KEY = "your_key_here"   # PowerShell
+   cd code/deployment
+   cp .env.example .env
+```
+   Then open `.env` and set your actual key:
+```
+   WANDB_API_KEY=your_actual_key_here
 ```
 2. From the repository root:
 ```bash
